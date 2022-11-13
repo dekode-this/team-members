@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import './editor.scss';
 
