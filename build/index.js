@@ -92,7 +92,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
 function Edit() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Edit");
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "New Edit");
 }
 
 /***/ }),
@@ -125,8 +125,8 @@ __webpack_require__.r(__webpack_exports__);
   // dashicon
   parent: ['blocks-course/team-members'],
   // this is the parent blocks registered name that is in the registration of the block in the parents index.js file
-  edit: () => _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
-  // this is how to use the default imported function
+  edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
+  // this is how to use the default function
   save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "save")
 });
 

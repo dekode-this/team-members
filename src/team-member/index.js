@@ -7,6 +7,6 @@ registerBlockType('blocks-course/team-member', {
 	description: __('A team member item', 'team-members'), // translation function, description, text-domain
 	icon: 'admin-users', // dashicon
 	parent: ['blocks-course/team-members'], // this is the parent blocks registered name that is in the registration of the block in the parents index.js file
-	edit: () => Edit, // this is how to use the default imported function
+	edit: Edit, // this is how to use the default function
 	save: () => <p>save</p>,
 });
