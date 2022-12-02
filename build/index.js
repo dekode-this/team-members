@@ -97,7 +97,7 @@ Object(function webpackMissingModule() { var e = new Error("Cannot find module '
 
 
 function Edit() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "New Edit");
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)());
 }
 
 /***/ }),
