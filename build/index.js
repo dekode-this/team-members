@@ -125,6 +125,10 @@ __webpack_require__.r(__webpack_exports__);
   // dashicon
   parent: ['blocks-course/team-members'],
   // this is the parent blocks registered name that is in the registration of the block in the parents index.js file
+  supports: {
+    reusable: false,
+    html: false
+  },
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
   // this is how to use the default function
   save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "save")
