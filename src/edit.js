@@ -1,11 +1,11 @@
-import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import './editor.scss';
 
 export default function Edit() {
+	const ALLOWED_BLOCKS = [ 'blocks-course/team-member' ]; 
 	return (
-		<p {...useBlockProps()}>
-			{__('Boilerplate – hello from the editor!', 'boilerplate')}
-		</p>
+		<div { ...useBlockProps() }>
+			<InnerBlocks allowedBlocks={ [ ALLOWED_BLOCKS ] } />
+		</div>
 	);
 }
