@@ -129,6 +129,18 @@ __webpack_require__.r(__webpack_exports__);
     reusable: false,
     html: false
   },
+  attributes: {
+    name: {
+      type: 'string',
+      source: 'html',
+      selector: 'h4'
+    },
+    bio: {
+      type: 'string',
+      source: 'html',
+      selector: 'p'
+    }
+  },
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
   // this is how to use the default function
   save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "save")

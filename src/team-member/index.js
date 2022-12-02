@@ -11,6 +11,18 @@ registerBlockType('blocks-course/team-member', {
 		reusable: false,
 		html: false,
 	},
+	attributes: {
+		name: {
+			type: 'string',
+			source: 'html',
+			selector: 'h4',
+		},
+		bio: {
+			type: 'string',
+			source: 'html',
+			selector: 'p',
+		},
+	},
 	edit: Edit, // this is how to use the default function
 	save: () => <p>save</p>,
 });
