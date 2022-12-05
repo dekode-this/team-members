@@ -23,7 +23,15 @@ __webpack_require__.r(__webpack_exports__);
 function Edit() {
   const ALLOWED_BLOCKS = ['blocks-course/team-member'];
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
-    allowedBlocks: [ALLOWED_BLOCKS]
+    allowedBlocks: [ALLOWED_BLOCKS],
+    template: [['blocks-course/team-member', {
+      name: 'Name 1',
+      bio: 'Bio 1'
+    }], ['blocks-course/team-member', {
+      name: 'Name 2',
+      bio: 'Bio 2'
+    }]] // an arrary of arrays, the second item in this array are attributes
+
   }));
 }
 
