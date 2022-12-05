@@ -12,6 +12,7 @@ export default function Edit() {
 					['blocks-course/team-member',],
 					['blocks-course/team-member',],
 				]} // an arrary of arrays, the second item in this array are attributes
+				templateLock="all"
 			/>
 		</div>
 	);

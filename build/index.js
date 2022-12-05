@@ -25,7 +25,8 @@ function Edit() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
     allowedBlocks: [ALLOWED_BLOCKS],
     template: [['blocks-course/team-member'], ['blocks-course/team-member'], ['blocks-course/team-member']] // an arrary of arrays, the second item in this array are attributes
-
+    ,
+    templateLock: "all"
   }));
 }
 
