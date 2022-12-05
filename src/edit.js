@@ -8,20 +8,9 @@ export default function Edit() {
 			<InnerBlocks
 				allowedBlocks={[ALLOWED_BLOCKS]}
 				template={[
-					[
-						'blocks-course/team-member',
-						{
-							name: 'Name 1',
-							bio: 'Bio 1',
-						},
-					],
-					[
-						'blocks-course/team-member',
-						{
-							name: 'Name 2',
-							bio: 'Bio 2',
-						},
-					],
+					['blocks-course/team-member',],
+					['blocks-course/team-member',],
+					['blocks-course/team-member',],
 				]} // an arrary of arrays, the second item in this array are attributes
 			/>
 		</div>
