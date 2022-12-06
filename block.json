@@ -5,12 +5,22 @@
 	"category": "media",
 	"icon": "groups",
 	"description": "A team members grid.",
-	"keywords": ["Team", "Members", "Grid"],
+	"keywords": [
+		"Team",
+		"Members",
+		"Grid"
+	],
 	"supports": {
 		"html": false
 	},
 	"textdomain": "team-members",
 	"editorScript": "file:./build/index.js",
 	"editorStyle": "file:./build/index.css",
-	"style": "file:./build/style-index.css"
+	"style": "file:./build/style-index.css",
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 2
+		}
+	}
 }
