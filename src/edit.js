@@ -13,7 +13,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const ALLOWED_BLOCKS = ['blocks-course/team-member'];
 	return (
-		<div {...useBlockProps()}>
+		<div {...useBlockProps({
+			className: `has-${columns}-columns`,
+		})}>
 			<InspectorControls>
 				<PanelBody>
 					<RangeControl
