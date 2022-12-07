@@ -6,7 +6,17 @@
  */
 
 .wp-block-blocks-course-team-members {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	display: flex;
+	flex-wrap: wrap;
+	@for $i from 1 through 6 { /* a lopp in scss, i is the the counter */
+		&.has-#{$i}-columns { /* note how the hash is used to create an expression. This si the same as a template literal in JS. */ 
+			.wp-block-blocks-course-team-member {
+				width: calc(100% / #{$i}) /* we then calculate the value which is 100% of the elemenbts width divided by the number of columns. For example if it was 5 columns the compliled css would be  width: calc(100% / 5) */
+			}
+		}
+	}
+
+	.wp-block-blocks-course-team-member {
+		margin: 10px;
+	}
 }
