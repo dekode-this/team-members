@@ -9,7 +9,9 @@
 
 	@for $i from 1 through 6 {
 		&.has-#{$i}-columns {
-			> .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type='blocks-course/team-member'] {
+
+			> .block-editor-inner-blocks > 
+			.block-editor-block-list__layout > [data-type='blocks-course/team-member'] {
 				width: calc(100% / #{$i} - 20px)
 			}
 		}
