@@ -14,6 +14,7 @@ export default function Edit({ attributes, setAttributes }) {
             <MediaPlaceholder
                 icon="admin-users"
                 onSelect={(val) => console.log(val)}
+                onSelectURL={(val) => console.log(val)}
             />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
