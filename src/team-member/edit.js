@@ -15,6 +15,7 @@ export default function Edit({ attributes, setAttributes }) {
                 icon="admin-users"
                 onSelect={(val) => console.log(val)}
                 onSelectURL={(val) => console.log(val)}
+                onError={(err) => console.log(err)}
             />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
