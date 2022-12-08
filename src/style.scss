@@ -8,6 +8,8 @@
 .wp-block-blocks-course-team-members {
 	display: flex;
 	flex-wrap: wrap;
+	margin-right: -10px;
+	margin-left: -10px;
 	@for $i from 1 through 6 { /* a lopp in scss, i is the the counter */
 		&.has-#{$i}-columns { /* note how the hash is used to create an expression. This is  the same as a template literal in JS. */ 
 			.wp-block-blocks-course-team-member {
@@ -18,5 +20,19 @@
 
 	.wp-block-blocks-course-team-member {
 		margin: 10px;
+		h4 {
+			color: #222;
+			font-size:22px;
+			font-style:bold;
+			margin:0;
+		}
+		p {
+			color:#565656;
+			font-size:16px;
+			font-weight: 300;
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
 	}
+
 }

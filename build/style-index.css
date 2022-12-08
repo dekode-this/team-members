@@ -10,6 +10,8 @@
 .wp-block-blocks-course-team-members {
   display: flex;
   flex-wrap: wrap;
+  margin-right: -10px;
+  margin-left: -10px;
   /* a lopp in scss, i is the the counter */
   /* a lopp in scss, i is the the counter */
   /* a lopp in scss, i is the the counter */
@@ -55,6 +57,19 @@
 }
 .wp-block-blocks-course-team-members .wp-block-blocks-course-team-member {
   margin: 10px;
+}
+.wp-block-blocks-course-team-members .wp-block-blocks-course-team-member h4 {
+  color: #222;
+  font-size: 22px;
+  font-style: bold;
+  margin: 0;
+}
+.wp-block-blocks-course-team-members .wp-block-blocks-course-team-member p {
+  color: #565656;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/
