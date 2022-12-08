@@ -17,6 +17,7 @@ export default function Edit({ attributes, setAttributes }) {
                 onSelectURL={(val) => console.log(val)}
                 onError={(err) => console.log(err)}
                 accept="image/*"
+                allowedTypes={['image']}
             />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
