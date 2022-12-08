@@ -11,7 +11,10 @@ export default function Edit({ attributes, setAttributes }) {
     };
     return (
         <div {...useBlockProps()}>
-            <MediaPlaceholder />
+            <MediaPlaceholder
+                icon="admin-users"
+                onSelect={(val) => console.log(val)}
+            />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
                 tagName="h4"
