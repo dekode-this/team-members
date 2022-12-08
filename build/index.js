@@ -189,7 +189,8 @@ function Edit(_ref) {
     onSelectURL: val => console.log(val),
     onError: err => console.log(err),
     accept: "image/*",
-    allowedTypes: ['image']
+    allowedTypes: ['image'],
+    disableMediaButtons: url
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Member Name', 'team-member'),
     tagName: "h4",

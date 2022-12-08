@@ -27,6 +27,7 @@ export default function Edit({ attributes, setAttributes }) {
                 onError={(err) => console.log(err)}
                 accept="image/*"
                 allowedTypes={['image']}
+                disableMediaButtons={url}
             />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
