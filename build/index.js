@@ -143,7 +143,10 @@ function Edit(_ref) {
   } = _ref;
   const {
     name,
-    bio
+    bio,
+    url,
+    id,
+    alt
   } = attributes;
 
   const onChangeName = newName => {
@@ -158,9 +161,31 @@ function Edit(_ref) {
     });
   };
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
+  const onSelectImage = img => {
+    //console.log(img) left this line in for demo. below we are setting the new attribute values in the function based upon the properties of the new img object that is logged here.
+    if (!img || !img.url) {
+      // if there is no image or image url set the values to undefined
+      setAttributes({
+        url: img.url,
+        id: img.id,
+        alt: img.alt
+      });
+      return;
+    }
+
+    setAttributes({
+      url: img.url,
+      id: img.id,
+      alt: img.alt
+    });
+  };
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: url,
+    alt: alt
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
     icon: "admin-users",
-    onSelect: val => console.log(val),
+    onSelect: onSelectImage,
     onSelectURL: val => console.log(val),
     onError: err => console.log(err),
     accept: "image/*",
@@ -223,6 +248,26 @@ __webpack_require__.r(__webpack_exports__);
       type: 'string',
       source: 'html',
       selector: 'p'
+    },
+    id: {
+      type: 'number'
+    },
+    alt: {
+      type: 'string',
+      source: 'attribute',
+      // this tells it to take it's value from the markup, to take its source from the images attributes
+      selector: 'img',
+      // this tells it what element type to target to obtain the alt tag from
+      attribute: 'alt',
+      // this tells it which attribute to use in this case the alt attribute of the image
+      default: ''
+    },
+    url: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'img',
+      attribute: 'src',
+      default: ''
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],

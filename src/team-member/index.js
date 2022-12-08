@@ -23,6 +23,24 @@ registerBlockType('blocks-course/team-member', {
 			source: 'html',
 			selector: 'p',
 		},
+		id: {
+			type: 'number'
+
+		},
+		alt: {
+			type: 'string',
+			source: 'attribute', // this tells it to take it's value from the markup, to take its source from the images attributes
+			selector: 'img', // this tells it what element type to target to obtain the alt tag from
+			attribute: 'alt', // this tells it which attribute to use in this case the alt attribute of the image
+			default: ''
+		},
+		url: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'src',
+			default: ''
+		}
 	},
 	edit: Edit, // this is how to use the default function
 	save: Save,
