@@ -22,7 +22,7 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <div {...useBlockProps()}>
             {url
-                && <div className={`wp-block-blocks-course-team-member-img`}><img src={url} alt={alt} /></div>
+                && <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? 'is-loading' : ''}`}><img src={url} alt={alt} /></div>
             }
             <MediaPlaceholder
                 icon="admin-users"
