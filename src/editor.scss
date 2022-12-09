@@ -1,9 +1,3 @@
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
 .wp-block-blocks-course-team-members {
 	display: block;
 
@@ -44,6 +38,21 @@
 
 		> [data-type="blocks-course/team-member"] {
 			margin: 10px;
+
+			.wp-block-blocks-course-team-member-img {
+				position:relative; // position the containing div wrapped around the image and spinner with a relative position, so that the spinner can have an absolute position and be placed over the image.
+				&.is-loading img {
+					opacity:0.3; // if the image container as the is-loading class then reduce the opacity of the img element it contains to 0.3
+				}
+				.components-spinner {
+					position:absolute;
+					left:0;
+					right:0;
+					top:0;
+					bottom:0;
+					margin:auto; // zero on all sides positions content in the center when absolute positioned with margin set to auto.
+				}
+			}
 
 			h4 {
 				color: #222;

@@ -22,7 +22,7 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <div {...useBlockProps()}>
             {url && (
-                <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? 'is-loading' : ''}`}
+                <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? ' is-loading' : ''}`} // note the space, it will add it as a separate class instead of appending it.
                 >
                     <img src={url} alt={alt} />
                     {isBlobURL(url) && <Spinner />}
