@@ -39,8 +39,14 @@
 		> [data-type="blocks-course/team-member"] {
 			margin: 10px;
 
+			.block-editor-media-placeholder {
+				margin-bottom:20px;
+			}
+
 			.wp-block-blocks-course-team-member-img {
 				position:relative; // position the containing div wrapped around the image and spinner with a relative position, so that the spinner can have an absolute position and be placed over the image.
+				margin-bottom:20px;
+
 				&.is-loading img {
 					opacity:0.3; // if the image container as the is-loading class then reduce the opacity of the img element it contains to 0.3
 				}
