@@ -21,9 +21,12 @@ export default function Edit({ attributes, setAttributes }) {
     console.log(url);
     return (
         <div {...useBlockProps()}>
-            {url
-                && <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? 'is-loading' : ''}`}><img src={url} alt={alt} /></div>
-            }
+            {url && (
+                <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? 'is-loading' : ''}`}
+                >
+                    <img src={url} alt={alt} />
+                </div>
+            )}
             <MediaPlaceholder
                 icon="admin-users"
                 onSelect={onSelectImage}
