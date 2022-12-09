@@ -145,7 +145,8 @@ function Edit(_ref) {
     attributes,
     setAttributes,
     noticeOperations,
-    noticeList
+    noticeList,
+    noticeUI
   } = _ref;
   const {
     name,
@@ -192,7 +193,10 @@ function Edit(_ref) {
     });
   };
 
-  console.log(url);
+  const onUploadError = message => {
+    noticeOperations.createErrorNotice(message); // create error notice is a function that is inside the Object noticeOperations.
+  };
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `wp-block-blocks-course-team-member-img${(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url) ? ' is-loading' : ''}` // note the space, it will add it as a separate class instead of appending it.
 
@@ -204,10 +208,12 @@ function Edit(_ref) {
     onSelect: onSelectImage // this handles both upload and insert from media library
     ,
     onSelectURL: onSelectURL,
-    onError: err => console.log(err) //accept="image/*"
+    onError: onUploadError //accept="image/*"
     ,
     allowedTypes: ['image'],
-    disableMediaButtons: url
+    disableMediaButtons: url,
+    notices: noticeUI // this is the prop to display the error message using withNotices Higher Order Component
+
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Member Name', 'team-member'),
     tagName: "h4",

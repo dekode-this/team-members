@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { isBlobURL } from "@wordpress/blob";
 import { Spinner, withNotices } from "@wordpress/components";
 
-function Edit({ attributes, setAttributes, noticeOperations, noticeList, }) {
+function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeUI }) {
 
     const { name, bio, url, id, alt } = attributes;
     const onChangeName = (newName) => {
@@ -26,7 +26,9 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, }) {
             alt: '',
         });
     }
-    console.log(url);
+    const onUploadError = (message) => {
+        noticeOperations.createErrorNotice(message) // create error notice is a function that is inside the Object noticeOperations.
+    }
     return (
         <div {...useBlockProps()}>
             {url && (
@@ -40,10 +42,11 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, }) {
                 icon="admin-users"
                 onSelect={onSelectImage} // this handles both upload and insert from media library
                 onSelectURL={onSelectURL}
-                onError={(err) => console.log(err)}
+                onError={onUploadError}
                 //accept="image/*"
                 allowedTypes={['image']}
                 disableMediaButtons={url}
+                notices={noticeUI} // this is the prop to display the error message using withNotices Higher Order Component
             />
             <RichText
                 placeholder={__('Member Name', 'team-member')}
