@@ -25,6 +25,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? 'is-loading' : ''}`}
                 >
                     <img src={url} alt={alt} />
+                    {isBlobURL(url) && <Spinner />}
                 </div>
             )}
             <MediaPlaceholder
