@@ -194,6 +194,8 @@ function Edit(_ref) {
   };
 
   const onUploadError = message => {
+    noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
+
     noticeOperations.createErrorNotice(message); // create error notice is a function that is inside the Object noticeOperations.
   };
 
@@ -208,8 +210,8 @@ function Edit(_ref) {
     onSelect: onSelectImage // this handles both upload and insert from media library
     ,
     onSelectURL: onSelectURL,
-    onError: onUploadError //accept="image/*"
-    ,
+    onError: onUploadError,
+    accept: "image/*",
     allowedTypes: ['image'],
     disableMediaButtons: url,
     notices: noticeUI // this is the prop to display the error message using withNotices Higher Order Component
