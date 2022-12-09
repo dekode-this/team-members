@@ -3,7 +3,8 @@ import { __ } from '@wordpress/i18n';
 import { isBlobURL } from "@wordpress/blob";
 import { Spinner, withNotices } from "@wordpress/components";
 
-export default function Edit({ attributes, setAttributes }) {
+function Edit({ attributes, setAttributes, noticeOperations, noticeList, }) {
+
     const { name, bio, url, id, alt } = attributes;
     const onChangeName = (newName) => {
         setAttributes({ name: newName });
@@ -61,3 +62,5 @@ export default function Edit({ attributes, setAttributes }) {
         </div>
     );
 }
+
+export default withNotices(Edit);
