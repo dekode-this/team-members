@@ -201,10 +201,11 @@ function Edit(_ref) {
     alt: alt
   }), (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url) && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
     icon: "admin-users",
-    onSelect: onSelectImage,
+    onSelect: onSelectImage // this handles both upload and insert from media library
+    ,
     onSelectURL: onSelectURL,
-    onError: err => console.log(err),
-    accept: "image/*",
+    onError: err => console.log(err) //accept="image/*"
+    ,
     allowedTypes: ['image'],
     disableMediaButtons: url
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {

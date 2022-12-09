@@ -1,7 +1,7 @@
 import { useBlockProps, RichText, MediaPlaceholder } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL } from "@wordpress/blob";
-import { Spinner } from "@wordpress/components";
+import { Spinner, withNotices } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
     const { name, bio, url, id, alt } = attributes;
@@ -37,10 +37,10 @@ export default function Edit({ attributes, setAttributes }) {
             )}
             <MediaPlaceholder
                 icon="admin-users"
-                onSelect={onSelectImage}
+                onSelect={onSelectImage} // this handles both upload and insert from media library
                 onSelectURL={onSelectURL}
                 onError={(err) => console.log(err)}
-                accept="image/*"
+                //accept="image/*"
                 allowedTypes={['image']}
                 disableMediaButtons={url}
             />
