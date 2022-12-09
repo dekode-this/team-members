@@ -161,25 +161,24 @@ function Edit(_ref) {
     });
   };
 
-  const onSelectImage = img => {
-    //console.log(img) left this line in for demo. below we are setting the new attribute values in the function based upon the properties of the new img object that is logged here.
-    if (!img || !img.url) {
-      // if there is no image or image url set the values to undefined
+  const onSelectImage = image => {
+    if (!image || !image.url) {
       setAttributes({
-        url: img.url,
-        id: img.id,
-        alt: img.alt
+        url: undefined,
+        id: undefined,
+        alt: ''
       });
       return;
     }
 
     setAttributes({
-      url: img.url,
-      id: img.id,
-      alt: img.alt
+      url: image.url,
+      id: image.id,
+      alt: image.alt
     });
   };
 
+  console.log(url);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: url,
     alt: alt

@@ -9,14 +9,14 @@ export default function Edit({ attributes, setAttributes }) {
     const onChangeBio = (newBio) => {
         setAttributes({ bio: newBio });
     };
-    const onSelectImage = (img) => {
-        //console.log(img) left this line in for demo. below we are setting the new attribute values in the function based upon the properties of the new img object that is logged here.
-        if (!img || !img.url) { // if there is no image or image url set the values to undefined
-            setAttributes({ url: img.url, id: img.id, alt: img.alt })
+    const onSelectImage = (image) => {
+        if (!image || !image.url) {
+            setAttributes({ url: undefined, id: undefined, alt: '' });
             return;
         }
-        setAttributes({ url: img.url, id: img.id, alt: img.alt })
-    }
+        setAttributes({ url: image.url, id: image.id, alt: image.alt });
+    };
+    console.log(url);
     return (
         <div {...useBlockProps()}>
             {url && <img src={url} alt={alt} />}
