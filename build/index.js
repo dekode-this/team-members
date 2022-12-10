@@ -140,6 +140,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 function Edit(_ref) {
   let {
     attributes,
@@ -197,7 +198,20 @@ function Edit(_ref) {
     noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
 
     noticeOperations.createErrorNotice(message); // create error notice is a function that is inside the Object noticeOperations.
-  };
+  }; // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
+
+
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!id && (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url)) {
+      // if there is not id which indicates the image is not uploaded to the media library && and there is a blobURL then run this function.
+      setAttributes({
+        url: undefined,
+        // clear the image url
+        alt: '' // set the alt tag to be an empty string
+
+      });
+    }
+  }, []); // passing an empty array of dependencies will prevent useEffect from running on every render. We only want to check for blobURLs when the component mounts for the first time.
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `wp-block-blocks-course-team-member-img${(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url) ? ' is-loading' : ''}` // note the space, it will add it as a separate class instead of appending it.

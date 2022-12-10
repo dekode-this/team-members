@@ -1,3 +1,4 @@
+import { useEffect } from '@wordpress/element';
 import { useBlockProps, RichText, MediaPlaceholder } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL } from "@wordpress/blob";
@@ -30,6 +31,17 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
         noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
         noticeOperations.createErrorNotice(message) // create error notice is a function that is inside the Object noticeOperations.
     }
+
+    // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
+    useEffect(() => {
+        if (!id && isBlobURL(url)) { // if there is not id which indicates the image is not uploaded to the media library && and there is a blobURL then run this function.
+            setAttributes({
+                url: undefined, // clear the image url
+                alt: '' // set the alt tag to be an empty string
+            })
+        }
+    }, []) // passing an empty array of dependencies will prevent useEffect from running on every render. We only want to check for blobURLs when the component mounts for the first time.
+
     return (
         <div {...useBlockProps()}>
             {url && (
