@@ -1,12 +1,14 @@
-import { useEffect } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useBlockProps, RichText, MediaPlaceholder } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { isBlobURL } from "@wordpress/blob";
+import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
 import { Spinner, withNotices } from "@wordpress/components";
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeUI }) {
 
     const { name, bio, url, id, alt } = attributes;
+    const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useStage() function is left with an empty argument to set it as underfined to beggin.
+    // the fist value of useState is the current valuie of the state and the second value is the function we will use to update the state
     const onChangeName = (newName) => {
         setAttributes({ name: newName });
     };
@@ -40,7 +42,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
                 alt: '' // set the alt tag to be an empty string
             })
         }
-    }, []) // passing an empty array of dependencies will prevent useEffect from running on every render. We only want to check for blobURLs when the component mounts for the first time.
+    }, []) // passing an empty array of dependencies will prevent useEffect from running on every render. We only want to check for blobURLs when the component mounts for the first time aftet the user has refreshed the browser, so on first load this function clears any blobURL content.
 
     return (
         <div {...useBlockProps()}>
