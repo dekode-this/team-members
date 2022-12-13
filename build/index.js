@@ -156,8 +156,10 @@ function Edit(_ref) {
     id,
     alt
   } = attributes;
-  const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useStage() function is left with an empty argument to set it as underfined to beggin.
-  // the fist value of useState is the current valuie of the state and the second value is the function we will use to update the state
+  const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
+  // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
+  //console.log(isBlobURL(url)); // this will return true while the image is being uploaded and then once it is uploaded it will return false
+  //console.log(url); // while the image is being uploaded this will return a blob url and then once it is uploaded it will return the actual url
 
   const onChangeName = newName => {
     setAttributes({
@@ -214,6 +216,18 @@ function Edit(_ref) {
       });
     }
   }, []); // passing an empty array of dependencies will prevent useEffect from running on every render. We only want to check for blobURLs when the component mounts for the first time aftet the user has refreshed the browser, so on first load this function clears any blobURL content.
+
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if ((0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url)) {
+      // this if statement checks if the url is a blob url. If ture it will run the function
+      setBlobURL(url); // so now stored in our 'state' we have a reference to the blob url even after it has left the DOM.
+    } else {
+      // once the state changes and the url is no longer a blob url but is an actual url we need to revoke the blob url to prevent a memory leak.
+      (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.revokeBlobURL)(blobURL); // blobURL is the one we have store in the 'state'. See previous lines -> const [blobURL, setBlobURL] = useState();
+
+      setBlobURL(undefined); // this clears url we stored out of the current 'state'
+    }
+  }, [url]); // this useEffect will run evcery time our url attribute changes, e.g. between blob url to actual url.
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `wp-block-blocks-course-team-member-img${(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url) ? ' is-loading' : ''}` // note the space, it will add it as a separate class instead of appending it.
