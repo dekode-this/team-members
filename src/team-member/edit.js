@@ -5,10 +5,12 @@ import {
     MediaPlaceholder,
     BlockControls,
     MediaReplaceFlow,
+    InspectorControls
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
 import { Spinner, withNotices } from "@wordpress/components";
+import { ToolbarButton } from '@wordpress/components';
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeUI }) {
 
@@ -46,6 +48,14 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
         noticeOperations.createErrorNotice(message) // create error notice is a function that is inside the Object noticeOperations.
     }
 
+    const removeImage = () => {
+        setAttributes({
+            url: undefined,
+            alt: '',
+            id: undefined
+        })
+    }
+
     // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
     useEffect(() => {
         if (!id && isBlobURL(url)) { // if there is not id which indicates the image is not uploaded to the media library && and there is a blobURL then run this function.
@@ -68,18 +78,26 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
 
     return (
         <>
-            <BlockControls group="inline">
-                <MediaReplaceFlow
-                    name={__("Replace Image", "team-members")}
-                    onSelect={onSelectImage} // this handles both upload and insert from media library
-                    onSelectURL={onSelectURL}
-                    onError={onUploadError}
-                    accept="image/*"
-                    allowedTypes={['image']}
-                    mediaId={id} // these 2 lines will ensure the current image is selected when the media library is opened
-                    mediaURL={url}
-                />
-            </BlockControls>
+            <InspectorControls>
+
+            </InspectorControls>
+            {url && ( // if there is an image (if url is true) display the block controls else don't
+                <BlockControls group="inline">
+                    <MediaReplaceFlow
+                        name={__("Replace Image", "team-members")}
+                        onSelect={onSelectImage} // this handles both upload and insert from media library
+                        onSelectURL={onSelectURL}
+                        onError={onUploadError}
+                        accept="image/*"
+                        allowedTypes={['image']}
+                        mediaId={id} // these 2 lines will ensure the current image is selected when the media library is opened
+                        mediaURL={url}
+                    />
+                    <ToolbarButton onClick={removeImage}>
+                        {__("Remove Image", "team-members")}
+                    </ToolbarButton>
+                </BlockControls>
+            )}
             <div {...useBlockProps()}>
                 {url && (
                     <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? ' is-loading' : ''}`} // note the space, it will add it as a separate class instead of appending it.
