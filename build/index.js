@@ -229,7 +229,20 @@ function Edit(_ref) {
     }
   }, [url]); // this useEffect will run evcery time our url attribute changes, e.g. between blob url to actual url.
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
+    group: "inline"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaReplaceFlow, {
+    name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Replace Image", "team-members"),
+    onSelect: onSelectImage // this handles both upload and insert from media library
+    ,
+    onSelectURL: onSelectURL,
+    onError: onUploadError,
+    accept: "image/*",
+    allowedTypes: ['image'],
+    mediaId: id // these 2 lines will ensure the current image is selected when the media library is opened
+    ,
+    mediaURL: url
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(), url && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `wp-block-blocks-course-team-member-img${(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(url) ? ' is-loading' : ''}` // note the space, it will add it as a separate class instead of appending it.
 
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
@@ -258,7 +271,7 @@ function Edit(_ref) {
     onChange: onChangeBio,
     value: bio,
     allowedFormats: []
-  }));
+  })));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = ((0,_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.withNotices)(Edit));

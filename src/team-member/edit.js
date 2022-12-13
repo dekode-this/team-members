@@ -1,5 +1,11 @@
 import { useEffect, useState } from '@wordpress/element';
-import { useBlockProps, RichText, MediaPlaceholder } from '@wordpress/block-editor';
+import {
+    useBlockProps,
+    RichText,
+    MediaPlaceholder,
+    BlockControls,
+    MediaReplaceFlow,
+} from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
 import { Spinner, withNotices } from "@wordpress/components";
@@ -61,39 +67,53 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
 
 
     return (
-        <div {...useBlockProps()}>
-            {url && (
-                <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? ' is-loading' : ''}`} // note the space, it will add it as a separate class instead of appending it.
-                >
-                    <img src={url} alt={alt} />
-                    {isBlobURL(url) && <Spinner />}
-                </div>
-            )}
-            <MediaPlaceholder
-                icon="admin-users"
-                onSelect={onSelectImage} // this handles both upload and insert from media library
-                onSelectURL={onSelectURL}
-                onError={onUploadError}
-                accept="image/*"
-                allowedTypes={['image']}
-                disableMediaButtons={url}
-                notices={noticeUI} // this is the prop to display the error message using withNotices Higher Order Component
-            />
-            <RichText
-                placeholder={__('Member Name', 'team-member')}
-                tagName="h4"
-                onChange={onChangeName}
-                value={name}
-                allowedFormats={[]}
-            />
-            <RichText
-                placeholder={__('Member Bio', 'team-member')}
-                tagName="p"
-                onChange={onChangeBio}
-                value={bio}
-                allowedFormats={[]}
-            />
-        </div>
+        <>
+            <BlockControls group="inline">
+                <MediaReplaceFlow
+                    name={__("Replace Image", "team-members")}
+                    onSelect={onSelectImage} // this handles both upload and insert from media library
+                    onSelectURL={onSelectURL}
+                    onError={onUploadError}
+                    accept="image/*"
+                    allowedTypes={['image']}
+                    mediaId={id} // these 2 lines will ensure the current image is selected when the media library is opened
+                    mediaURL={url}
+                />
+            </BlockControls>
+            <div {...useBlockProps()}>
+                {url && (
+                    <div className={`wp-block-blocks-course-team-member-img${isBlobURL(url) ? ' is-loading' : ''}`} // note the space, it will add it as a separate class instead of appending it.
+                    >
+                        <img src={url} alt={alt} />
+                        {isBlobURL(url) && <Spinner />}
+                    </div>
+                )}
+                <MediaPlaceholder
+                    icon="admin-users"
+                    onSelect={onSelectImage} // this handles both upload and insert from media library
+                    onSelectURL={onSelectURL}
+                    onError={onUploadError}
+                    accept="image/*"
+                    allowedTypes={['image']}
+                    disableMediaButtons={url}
+                    notices={noticeUI} // this is the prop to display the error message using withNotices Higher Order Component
+                />
+                <RichText
+                    placeholder={__('Member Name', 'team-member')}
+                    tagName="h4"
+                    onChange={onChangeName}
+                    value={name}
+                    allowedFormats={[]}
+                />
+                <RichText
+                    placeholder={__('Member Bio', 'team-member')}
+                    tagName="p"
+                    onChange={onChangeBio}
+                    value={bio}
+                    allowedFormats={[]}
+                />
+            </div>
+        </>
     );
 }
 
