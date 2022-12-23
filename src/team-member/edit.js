@@ -9,10 +9,9 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { Spinner, withNotices } from "@wordpress/components";
-import { ToolbarButton } from '@wordpress/components';
+import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl } from "@wordpress/components";
 
-function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeUI }) {
+function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
 
     const { name, bio, url, id, alt } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
@@ -26,9 +25,15 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
     const onChangeName = (newName) => {
         setAttributes({ name: newName });
     };
+
     const onChangeBio = (newBio) => {
         setAttributes({ bio: newBio });
     };
+
+    const onChangeAlt = (newAlt) => {
+        setAttributes({ alt: newAlt });
+    }
+
     const onSelectImage = (image) => {
         if (!image || !image.url) {
             setAttributes({ url: undefined, id: undefined, alt: '' });
@@ -36,17 +41,19 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
         }
         setAttributes({ url: image.url, id: image.id, alt: image.alt });
     };
+
     const onSelectURL = (newURL) => {
         setAttributes({
             url: newURL,
             id: undefined,
             alt: '',
         });
-    }
+    };
+
     const onUploadError = (message) => {
         noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
         noticeOperations.createErrorNotice(message) // create error notice is a function that is inside the Object noticeOperations.
-    }
+    };
 
     const removeImage = () => {
         setAttributes({
@@ -54,7 +61,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
             alt: '',
             id: undefined
         })
-    }
+    };
 
     // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
     useEffect(() => {
@@ -79,7 +86,17 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeList, noticeU
     return (
         <>
             <InspectorControls>
-
+                <PanelBody>
+                    <TextareaControl
+                        label={__('Alt Text', 'team-merbers')}
+                        value={alt}
+                        onChange={onChangeAlt}
+                        help={__(
+                            "Alternative text describes your image to people can't see it. Add a short description with its key details.",
+                            'team-members'
+                        )}
+                    />
+                </PanelBody>
             </InspectorControls>
             {url && ( // if there is an image (if url is true) display the block controls else don't
                 <BlockControls group="inline">

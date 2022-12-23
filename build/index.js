@@ -141,13 +141,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 function Edit(_ref) {
   let {
     attributes,
     setAttributes,
     noticeOperations,
-    noticeList,
     noticeUI
   } = _ref;
   const {
@@ -171,6 +169,12 @@ function Edit(_ref) {
   const onChangeBio = newBio => {
     setAttributes({
       bio: newBio
+    });
+  };
+
+  const onChangeAlt = newAlt => {
+    setAttributes({
+      alt: newAlt
     });
   };
 
@@ -238,7 +242,12 @@ function Edit(_ref) {
     }
   }, [url]); // this useEffect will run evcery time our url attribute changes, e.g. between blob url to actual url.
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null), url && // if there is an image (if url is true) display the block controls else don't
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextareaControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Alt Text', 'team-merbers'),
+    value: alt,
+    onChange: onChangeAlt,
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Alternative text describes your image to people can't see it. Add a short description with its key details.", 'team-members')
+  }))), url && // if there is an image (if url is true) display the block controls else don't
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
     group: "inline"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaReplaceFlow, {
