@@ -87,15 +87,17 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
         <>
             <InspectorControls>
                 <PanelBody>
-                    <TextareaControl
-                        label={__('Alt Text', 'team-merbers')}
-                        value={alt}
-                        onChange={onChangeAlt}
-                        help={__(
-                            "Alternative text describes your image to people can't see it. Add a short description with its key details.",
-                            'team-members'
-                        )}
-                    />
+                    {url && !isBlobURL(url) && ( //if url of the omage is true and it is not a blobURL then display the Alt Text box
+                        <TextareaControl
+                            label={__('Alt Text', 'team-merbers')}
+                            value={alt}
+                            onChange={onChangeAlt}
+                            help={__(
+                                "Alternative text describes your image to people can't see it. Add a short description with its key details.",
+                                'team-members'
+                            )}
+                        />
+                    )}
                 </PanelBody>
             </InspectorControls>
             {url && ( // if there is an image (if url is true) display the block controls else don't
