@@ -55,14 +55,15 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
                 options.push({ //push to the options array
                     label: imageSize.name,
                     value: size.source_url,
-                })
+                });
                 // options will now be returned as an array of objects, 1 object for each image size that was found in the theme image sizes
                 // the label will  be the size name and the value will be the specific image source url for that size image.
                 // I can test this using console.log(options) and then running the getImageSizeOptions() function.
             }
         }
-    }
-    ///getImageSizeOptions();
+        return options;
+    };
+    //getImageSizeOptions();
 
     //console.log(isBlobURL(url)); // this will return true while the image is being uploaded and then once it is uploaded it will return false
     //console.log(url); // while the image is being uploaded this will return a blob url and then once it is uploaded it will return the actual url
@@ -93,6 +94,10 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
             alt: '',
         });
     };
+
+    const onChangeImageSize = (newURL) => { // this function is called in the image size select menu, it sets the image url to the new image size url when a new image size is selected in the select menu
+        setAttributes({ url: newURL });
+    }
 
     const onUploadError = (message) => {
         noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
@@ -134,18 +139,9 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
                     {id && //if id of an image is returning as true then this means it is uploaded ot he media library
                         <SelectControl
                             label={__('Image Size', 'team-merbers')}
-                            options={[
-                                {
-                                    label: "Size 1",
-                                    value: "Value 1"
-                                },
-                                {
-                                    label: "Size 2",
-                                    value: "Value 2"
-                                }
-                            ]}
-                            value="Value 2"
-                            onChange={value => console.log(value)}
+                            options={getImageSizeOptions()}
+                            value={url}
+                            onChange={onChangeImageSize}
                         />
                     }
                     {url && !isBlobURL(url) && ( //if url of the omage is true and it is not a blobURL then display the Alt Text box

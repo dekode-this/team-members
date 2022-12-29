@@ -206,7 +206,9 @@ function Edit(_ref) {
         // I can test this using console.log(options) and then running the getImageSizeOptions() function.
       }
     }
-  }; ///getImageSizeOptions();
+
+    return options;
+  }; //getImageSizeOptions();
   //console.log(isBlobURL(url)); // this will return true while the image is being uploaded and then once it is uploaded it will return false
   //console.log(url); // while the image is being uploaded this will return a blob url and then once it is uploaded it will return the actual url
 
@@ -254,6 +256,13 @@ function Edit(_ref) {
     });
   };
 
+  const onChangeImageSize = newURL => {
+    // this function is called in the image size select menu, it sets the image url to the new image size url when a new image size is selected in the select menu
+    setAttributes({
+      url: newURL
+    });
+  };
+
   const onUploadError = message => {
     noticeOperations.removeAllNotices(); // this clears the exisiting notices to avoid stacking when the isers attempts a new not allowed file type.
 
@@ -296,15 +305,9 @@ function Edit(_ref) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, null, id && //if id of an image is returning as true then this means it is uploaded ot he media library
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Image Size', 'team-merbers'),
-    options: [{
-      label: "Size 1",
-      value: "Value 1"
-    }, {
-      label: "Size 2",
-      value: "Value 2"
-    }],
-    value: "Value 2",
-    onChange: value => console.log(value)
+    options: getImageSizeOptions(),
+    value: url,
+    onChange: onChangeImageSize
   }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_4__.isBlobURL)(url) && //if url of the omage is true and it is not a blobURL then display the Alt Text box
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextareaControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Alt Text', 'team-merbers'),
