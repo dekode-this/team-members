@@ -9,7 +9,14 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { Spinner, withNotices, ToolbarButton, PanelBody, TextareaControl } from "@wordpress/components";
+import {
+    Spinner,
+    withNotices,
+    ToolbarButton,
+    PanelBody,
+    TextareaControl,
+    SelectControl
+} from "@wordpress/components";
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
 
@@ -87,6 +94,23 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
         <>
             <InspectorControls>
                 <PanelBody>
+                    {id && //if id of an image is returning as true then this means it is uploaded ot he media library
+                        <SelectControl
+                            label={__('Image Size', 'team-merbers')}
+                            options={[
+                                {
+                                    label: "Size 1",
+                                    value: "Value 1"
+                                },
+                                {
+                                    label: "Size 2",
+                                    value: "Value 2"
+                                }
+                            ]}
+                            value="Value 2"
+                            onChange={value => console.log(value)}
+                        />
+                    }
                     {url && !isBlobURL(url) && ( //if url of the omage is true and it is not a blobURL then display the Alt Text box
                         <TextareaControl
                             label={__('Alt Text', 'team-merbers')}
