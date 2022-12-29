@@ -163,8 +163,53 @@ function Edit(_ref) {
   } = attributes;
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
   // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
+
+  const imageObject = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => {
+    // we set a constant thats value is the useSelect function. This function accepts and argument that is a function.
+    const {
+      getMedia
+    } = select('core'); // we select the core store and from the core store we want to use the getMedia function. We do this by destructuring.
+
+    return id ? getMedia(id) : null; // we return the value of the image object. 
+    //We are passing the id of our image from the block attributes const { name, bio, url, id, alt } = attributes;
+    // This is an if statement id ? getMedia(id) : null. If id is true then return the media object for our image else retunr null.
+  }, [id]); // useSelect accepts and second arrgument which is an array of dependencies (any value we depend on in our useSelect, which is this case is the image id)
+  // we pass the id as the second arrguement becuase if we change the image we need to update the imageObject, we tell useSelect to update the object by passing it the id as the second arrgument 
+  //console.log(imageObject);
+
+  const imageSizes = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => {
+    return select(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.store).getSettings().imageSizes; // this is how we get the array of available image sizes in the theme.
+  }, []); // in console first run wp.data.select("core").getMedia(213) which contains the images szes for the image
+  // then run wp.data.select("core/block-editor").getSettings().imageSizes  which returns the available image size in the theme
+  // Then run a loop through the images sizes and only set an option if it exists in the theme image size array
+
+  const getImageSizeOptions = () => {
+    if (!imageObject) return []; // if we don't have an image object just return an empty array
+
+    const options = []; // otherwise define a new array options and this array we are going to populate options with label and values
+
+    const sizes = imageObject.media_details.sizes;
+
+    for (const key in sizes) {
+      // https://www.w3schools.com/js/js_loop_forin.asp
+      const size = sizes[key];
+      const imageSize = imageSizes.find(s => s.slug === key); // using .find to check if the size title is in the theme image sizes as a slug
+
+      if (imageSize) {
+        // if imageSize is true, i.e. if the image size was found in the slugs
+        options.push({
+          //push to the options array
+          label: imageSize.name,
+          value: size.source_url
+        }); // options will now be returned as an array of objects, 1 object for each image size that was found in the theme image sizes
+        // the label will  be the size name and the value will be the specific image source url for that size image.
+        // I can test this using console.log(options) and then running the getImageSizeOptions() function.
+      }
+    }
+  }; ///getImageSizeOptions();
   //console.log(isBlobURL(url)); // this will return true while the image is being uploaded and then once it is uploaded it will return false
   //console.log(url); // while the image is being uploaded this will return a blob url and then once it is uploaded it will return the actual url
+
 
   const onChangeName = newName => {
     setAttributes({
