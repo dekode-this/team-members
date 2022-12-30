@@ -1,4 +1,4 @@
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import {
     useBlockProps,
     RichText,
@@ -25,6 +25,8 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
     const { name, bio, url, id, alt } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
     // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
+
+    const titleRef = useRef();
 
     const imageObject = useSelect((select) => { // we set a constant thats value is the useSelect function. This function accepts and argument that is a function.
         const { getMedia } = select('core'); // we select the core store and from the core store we want to use the getMedia function. We do this by destructuring.
@@ -129,7 +131,11 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
             revokeBlobURL(blobURL); // blobURL is the one we have store in the 'state'. See previous lines -> const [blobURL, setBlobURL] = useState();
             setBlobURL(undefined); // this clears url we stored out of the current 'state'
         }
-    }, [url]) // this useEffect will run evcery time our url attribute changes, e.g. between blob url to actual url.
+    }, [url]) // this useEffect will run every time our url attribute changes, e.g. between blob url to actual url.
+
+    useEffect(() => {
+        titleRef.current.focus(); //useRef must have .current as a method
+    }, [url])
 
 
     return (
@@ -144,7 +150,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
                             onChange={onChangeImageSize}
                         />
                     }
-                    {url && !isBlobURL(url) && ( //if url of the omage is true and it is not a blobURL then display the Alt Text box
+                    {url && !isBlobURL(url) && ( //if url of the image is true and it is not a blobURL then display the Alt Text box
                         <TextareaControl
                             label={__('Alt Text', 'team-merbers')}
                             value={alt}
@@ -193,6 +199,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
                     notices={noticeUI} // this is the prop to display the error message using withNotices Higher Order Component
                 />
                 <RichText
+                    ref={titleRef}
                     placeholder={__('Member Name', 'team-member')}
                     tagName="h4"
                     onChange={onChangeName}

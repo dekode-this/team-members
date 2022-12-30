@@ -164,6 +164,7 @@ function Edit(_ref) {
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
   // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
 
+  const titleRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const imageObject = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => {
     // we set a constant thats value is the useSelect function. This function accepts and argument that is a function.
     const {
@@ -300,15 +301,18 @@ function Edit(_ref) {
 
       setBlobURL(undefined); // this clears url we stored out of the current 'state'
     }
-  }, [url]); // this useEffect will run evcery time our url attribute changes, e.g. between blob url to actual url.
+  }, [url]); // this useEffect will run every time our url attribute changes, e.g. between blob url to actual url.
 
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    titleRef.current.focus(); //useRef must have .current as a method
+  }, [url]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, null, id && //if id of an image is returning as true then this means it is uploaded ot he media library
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Image Size', 'team-merbers'),
     options: getImageSizeOptions(),
     value: url,
     onChange: onChangeImageSize
-  }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_4__.isBlobURL)(url) && //if url of the omage is true and it is not a blobURL then display the Alt Text box
+  }), url && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_4__.isBlobURL)(url) && //if url of the image is true and it is not a blobURL then display the Alt Text box
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextareaControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Alt Text', 'team-merbers'),
     value: alt,
@@ -348,6 +352,7 @@ function Edit(_ref) {
     notices: noticeUI // this is the prop to display the error message using withNotices Higher Order Component
 
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+    ref: titleRef,
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Member Name', 'team-member'),
     tagName: "h4",
     onChange: onChangeName,
