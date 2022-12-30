@@ -10,6 +10,7 @@ import {
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import { usePrevious } from '@wordpress/compose';
 import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
 import {
     Spinner,
@@ -25,6 +26,8 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
     const { name, bio, url, id, alt } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
     // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
+
+    const prevURL = usePrevious(url);
 
     const titleRef = useRef();
 
@@ -134,8 +137,10 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
     }, [url]) // this useEffect will run every time our url attribute changes, e.g. between blob url to actual url.
 
     useEffect(() => {
-        titleRef.current.focus(); //useRef must have .current as a method
-    }, [url])
+        if (url && !prevURL) { // if url is true (as in theuser has selected a new image) and we do not have a previous URL then chabge the focus to the title text field
+            titleRef.current.focus(); //useRef must have .current as a method
+        }
+    }, [url, prevURL])
 
 
     return (
