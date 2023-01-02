@@ -150,19 +150,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 function Edit(_ref) {
   let {
     attributes,
     setAttributes,
     noticeOperations,
-    noticeUI
+    noticeUI,
+    isSelected
   } = _ref;
   const {
     name,
     bio,
     url,
     id,
-    alt
+    alt,
+    socialLinks
   } = attributes;
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
   // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
@@ -371,7 +374,24 @@ function Edit(_ref) {
     onChange: onChangeBio,
     value: bio,
     allowedFormats: []
-  })));
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wp-block-blocks-course-team-member-social-links"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, socialLinks.map((item, index) => {
+    // this map function loops over the sociaLinks array from the inex.js file of the nested block. The item is the current value being passed in. It then uses the item component to display the icon mapped from the loop.  
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: index
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Icon, {
+      icon: item.icon
+    }));
+  }), isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "wp-block-blocks-course-team-member-social-add-icon-li"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Tooltip, {
+    text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Social Link', 'team-members')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Social Link', 'team-members')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Icon, {
+    icon: "plus"
+  }))))))));
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.withNotices)(Edit));
@@ -439,6 +459,16 @@ __webpack_require__.r(__webpack_exports__);
       selector: 'img',
       attribute: 'src',
       default: ''
+    },
+    socialLinks: {
+      type: 'array',
+      default: [{
+        link: 'https://facebook.com',
+        icon: 'facebook'
+      }, {
+        link: 'https://instagram.com',
+        icon: 'instagram'
+      }]
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],

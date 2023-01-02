@@ -40,7 +40,14 @@ registerBlockType('blocks-course/team-member', {
 			selector: 'img',
 			attribute: 'src',
 			default: ''
-		}
+		},
+		socialLinks: {
+			type: 'array',
+			default: [
+				{ link: 'https://facebook.com', icon: 'facebook' },
+				{ link: 'https://instagram.com', icon: 'instagram' },
+			]
+		},
 	},
 	edit: Edit, // this is how to use the default function
 	save: Save,

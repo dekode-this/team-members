@@ -18,12 +18,15 @@ import {
     ToolbarButton,
     PanelBody,
     TextareaControl,
-    SelectControl
+    SelectControl,
+    Icon,
+    Tooltip
 } from "@wordpress/components";
+import { Button } from '@wordpress/components';
 
-function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
+function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected }) {
 
-    const { name, bio, url, id, alt } = attributes;
+    const { name, bio, url, id, alt, socialLinks } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
     // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
 
@@ -218,6 +221,34 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI }) {
                     value={bio}
                     allowedFormats={[]}
                 />
+                <div className='wp-block-blocks-course-team-member-social-links'>
+                    <ul>
+                        {socialLinks.map((item, index) => { // this map function loops over the sociaLinks array from the inex.js file of the nested block. The item is the current value being passed in. It then uses the item component to display the icon mapped from the loop.  
+                            return (
+                                <li key={index}>
+                                    <Icon icon={item.icon} />
+                                </li>
+                            );
+                        })}
+                        {isSelected &&
+                            <li className='wp-block-blocks-course-team-member-social-add-icon-li'>
+                                <Tooltip
+                                    text={__('Add Social Link',
+                                        'team-members')}
+                                >
+                                    <button
+                                        aria-label={__(
+                                            'Add Social Link',
+                                            'team-members'
+                                        )}
+                                    >
+                                        <Icon icon="plus" />
+                                    </button>
+                                </Tooltip>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </>
     );
