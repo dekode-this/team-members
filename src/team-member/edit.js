@@ -22,7 +22,6 @@ import {
     Icon,
     Tooltip
 } from "@wordpress/components";
-import { Button } from '@wordpress/components';
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected }) {
 
