@@ -13,8 +13,7 @@
 	"supports": {
 		"html": false,
 		"align": [
-			"wide",
-			"full"
+			"wide"
 		]
 	},
 	"textdomain": "team-members",
