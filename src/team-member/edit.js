@@ -29,7 +29,10 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
     // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
 
+    const [selectedLink, setSelectedLink] = useState();
+
     const prevURL = usePrevious(url);
+    const prevIsSelected = usePrevious(isSelected); // this is how we get the previous value of 'isSelected'
 
     const titleRef = useRef();
 
@@ -144,6 +147,12 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
         }
     }, [url, prevURL])
 
+    useEffect(() => {
+        if (prevIsSelected && !isSelected) { // if the block was selected, but now it isn't selected do something
+            setSelectedLink(); // set selected link to undfined.
+        }
+    }, [isSelected, prevIsSelected]) // only run if our isSlected values has changed.
+
 
     return (
         <>
@@ -224,8 +233,25 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                     <ul>
                         {socialLinks.map((item, index) => { // this map function loops over the sociaLinks array from the inex.js file of the nested block. The item is the current value being passed in. It then uses the item component to display the icon mapped from the loop.  
                             return (
-                                <li key={index}>
-                                    <Icon icon={item.icon} />
+                                <li
+                                    key={index} // In REACT each child in a list should have a unique key, here we use the index number from the loop as a dynamic key. This si done because REACT needs to know which items have changed in the REACT DOM.
+                                    className={ // a conditional adding of a class name if selected link is equal to the index
+                                        selectedLink === index
+                                            ? 'is-selected'
+                                            : null
+                                    }
+                                >
+                                    <button
+                                        aria-label={__(
+                                            'Edit Social Link',
+                                            'team-members'
+                                        )}
+                                        onClick={() =>
+                                            setSelectedLink(index) // this function is being passed the index of the selected link
+                                        }
+                                    >
+                                        <Icon icon={item.icon} />
+                                    </button>
                                 </li>
                             );
                         })}
