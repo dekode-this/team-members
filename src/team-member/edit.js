@@ -153,6 +153,12 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
         }
     }, [isSelected, prevIsSelected]) // only run if our isSlected values has changed.
 
+    const addNewSocilalItem = () => {
+        setAttributes({
+            socialLinks: [...socialLinks, { icon: "wordpress", link: '' }] // by using '...' this copies the array so we donn't modify the original array. The the second part adds an item into the array
+        })
+    }
+
 
     return (
         <>
@@ -266,6 +272,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                                             'Add Social Link',
                                             'team-members'
                                         )}
+                                        onClick={addNewSocilalItem}
                                     >
                                         <Icon icon="plus" />
                                     </button>
