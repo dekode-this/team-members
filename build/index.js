@@ -156,8 +156,10 @@ function Edit(_ref) {
     setAttributes,
     noticeOperations,
     noticeUI,
-    isSelected
+    isSelected,
+    ...props
   } = _ref;
+  console.log(props);
   const {
     name,
     bio,
@@ -169,7 +171,9 @@ function Edit(_ref) {
   const [blobURL, setBlobURL] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
   // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
 
-  const [selectedLink, setSelectedLink] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
+  const [selectedLink, setSelectedLink] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(); // what is setSelectedLink? //It is the index of the social link that is selected. We use this to update the social link in the socialLinks array.
+  // what is selectedLink? //It is the index of the social link that is selected. We use this to update the social link in the socialLinks array.
+
   const prevURL = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_4__.usePrevious)(url);
   const prevIsSelected = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_4__.usePrevious)(isSelected); // this is how we get the previous value of 'isSelected'
 
@@ -333,6 +337,7 @@ function Edit(_ref) {
       }] // by using '...' this copies the array so we donn't modify the original array. The the second part adds an item into the array
 
     });
+    setSelectedLink(socialLinks.length); // When we add a new icon we want to set a new link to the last item. We use .length to do this. e.g. we want to set the new link into index 2 if we already have 0 1nd 1.
   };
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, null, id && //if id of an image is returning as true then this means it is uploaded ot he media library
@@ -404,7 +409,7 @@ function Edit(_ref) {
       selectedLink === index ? 'is-selected' : null
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Edit Social Link', 'team-members'),
-      onClick: () => setSelectedLink(index) // this function is being passed the index of the selected link
+      onClick: () => setSelectedLink(index) // this function is being passed the index of the selected link // this toggles the is-selected class. See the li above.
 
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Icon, {
       icon: item.icon

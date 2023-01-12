@@ -23,13 +23,16 @@ import {
     Tooltip
 } from "@wordpress/components";
 
-function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected }) {
+function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected, ...props }) {
+    console.log(props);
 
     const { name, bio, url, id, alt, socialLinks } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
     // the fist value of useState is the current value of the state and the second value is the function we will use to update the state
 
     const [selectedLink, setSelectedLink] = useState();
+    // what is setSelectedLink? //It is the index of the social link that is selected. We use this to update the social link in the socialLinks array.
+    // what is selectedLink? //It is the index of the social link that is selected. We use this to update the social link in the socialLinks array.
 
     const prevURL = usePrevious(url);
     const prevIsSelected = usePrevious(isSelected); // this is how we get the previous value of 'isSelected'
@@ -156,7 +159,8 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
     const addNewSocilalItem = () => {
         setAttributes({
             socialLinks: [...socialLinks, { icon: "wordpress", link: '' }] // by using '...' this copies the array so we donn't modify the original array. The the second part adds an item into the array
-        })
+        });
+        setSelectedLink(socialLinks.length) // When we add a new icon we want to set a new link to the last item. We use .length to do this. e.g. we want to set the new link into index 2 if we already have 0 1nd 1.
     }
 
 
@@ -253,7 +257,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                                             'team-members'
                                         )}
                                         onClick={() =>
-                                            setSelectedLink(index) // this function is being passed the index of the selected link
+                                            setSelectedLink(index) // this function is being passed the index of the selected link // this toggles the is-selected class. See the li above.
                                         }
                                     >
                                         <Icon icon={item.icon} />
