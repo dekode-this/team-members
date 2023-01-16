@@ -19,7 +19,7 @@ export default function Save({ attributes }) {
                     <ul>
                         {socialLinks.map((item, index) => {
                             return (
-                                <li key={index} data-icon={item.icon}> {/* adding item.icon as a data attribute like this allows us to extract it from the html instead of saving it in the  */}
+                                <li key={index} data-icon={item.icon}> {/* adding item.icon as a data attribute like this allows us to extract it from the html instead of saving it in the delimeters  */}
                                     <a href={item.link}>
                                         <Icon icon={item.icon} />
                                     </a>
