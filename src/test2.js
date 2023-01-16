@@ -14,8 +14,6 @@ function isPrime(number) {
 }
 isPrime(); // expected output: true
 
-
-
 // write a program that takes two words as an argument and returns true if they are anagrams and false if they are not
 function isAnagram(word1, word2) {
     if (word1.length !== word2.length) {
@@ -171,6 +169,49 @@ function process2() {
     }
 }
 process2();
+
+// What is JSX?
+// JSX is a syntax extension to JavaScript. It is used with React to describe what the UI should look like. JSX may remind you of a template language, but it comes with the full power of JavaScript.
+// write an example retun statement using JSX
+return (
+    <div>
+        <h1>Hello World</h1>
+    </div>
+);
+
+// rewrite the above an if statement using JSX
+if (condition) {
+    return (
+        <div>
+            <h1>Hello World</h1>
+        </div>
+    );
+}
+
+// rewrite the above if statement using JSX
+return (
+    <div>
+        <h1>Hello World</h1>
+        {condition ? <h1>Hello World</h1> : null}
+    </div>
+);
+
+// put an if statement inside the return statement
+return (
+    <div>
+        <h1>Hello World</h1>
+        {condition && <h1>Hello World</h1>}
+    </div>
+);
+// write an example JSX return statment that contains a valid code comment
+return (
+    <div>
+        <h1>Hello World</h1>
+        {/* this is a valid code comment */}
+    </div>
+);
+
+
 
 // write a program that prints the numbers 1 to 100 and replace the digitis 3 with Fizz and 5 with Buzz only in the number
 function process3() {
