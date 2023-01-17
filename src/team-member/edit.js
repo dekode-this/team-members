@@ -20,7 +20,9 @@ import {
     TextareaControl,
     SelectControl,
     Icon,
-    Tooltip
+    Tooltip,
+    TextControl,
+    Button,
 } from "@wordpress/components";
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected, ...props }) {
@@ -284,6 +286,14 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                             </li>
                         }
                     </ul>
+                </div>
+
+                <div className='wp-block-blocks-course-team-member-social-links-link-form'>
+                    <TextControl label={__('Icon', 'team-members')} />
+                    <TextControl label={__('URL', 'team-members')} />
+                    <Button>
+                        {__('Remove Link', 'team-members')}
+                    </Button>
                 </div>
             </div>
         </>

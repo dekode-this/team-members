@@ -55,7 +55,7 @@ registerBlockType('blocks-course/team-member', {
 					attribute: 'data-icon',
 				},
 				link: {
-					selector: 'a',
+					selector: 'a', // the reason we specify the selector here is because we are targeting the a tag inside the li tag
 					source: 'attribute',
 					attribute: 'href',
 				},
