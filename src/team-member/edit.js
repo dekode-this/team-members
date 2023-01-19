@@ -25,8 +25,20 @@ import {
     Button,
 } from "@wordpress/components";
 
+import {
+    DndContext,
+    useSensor,
+    useSensors,
+    PointerSensor,
+} from "@dnd-kit/core";
+import {
+    SortableContext,
+    verticalListSortingStrategy,
+    horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import SortableItem from './sortable-item';
+
 function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected, ...props }) {
-    console.log(props);
 
     const { name, bio, url, id, alt, socialLinks } = attributes;
     const [blobURL, setBlobURL] = useState(); // the second arrgument is the setter for the state, The useState() function is left with an empty argument to set it as underfined to beggin.
@@ -38,6 +50,10 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
 
     const prevURL = usePrevious(url);
     const prevIsSelected = usePrevious(isSelected); // this is how we get the previous value of 'isSelected'
+
+    const sensors = useSensors(useSensor(PointerSensor, {
+        activationConstraint: { distance: 5 },
+    })); // this is how we use the PointerSensor
 
     const titleRef = useRef();
 
@@ -127,6 +143,26 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
         })
     };
 
+    const updateSocialItem = (type, value) => { // first aregument is the type, is it a link or an icon (from index.js) and the second argument is the new value of the link or icon
+        const socialLinksCopy = [...socialLinks]; // we make a copy of the socialLinks array using the spread operator
+        socialLinksCopy[selectedLink][type] = value; // we set the value of the socialLinksCopy array at the index of the selectedLink to the new value
+        setAttributes({ socialLinks: socialLinksCopy }); // we set the socialLinks attribute to the copy of the socialLinks array
+    }
+
+    const handleDragEnd = (event) => {
+        console.log(event);
+    }
+
+    const removeSocialItem = () => {
+        setAttributes({
+            socialLinks: [
+                ...socialLinks.slice(0, selectedLink), // first slice the socialLinks array from the start to the selectedLink
+                ...socialLinks.slice(selectedLink + 1), // then concatinate the second slice of the socialLinks array from the selectedLink + 1 to the end of the array (this will remove the selectedLink becuase it is the one in the middle of the array)
+            ],
+        });
+        setSelectedLink(); // clear the selected link by setting setSelectedLink as undefined
+    }
+
     // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
     useEffect(() => {
         if (!id && isBlobURL(url)) { // if there is not id which indicates the image is not uploaded to the media library && and there is a blobURL then run this function.
@@ -154,9 +190,9 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
 
     useEffect(() => {
         if (prevIsSelected && !isSelected) { // if the block was selected, but now it isn't selected do something
-            setSelectedLink(); // set selected link to undfined.
+            setSelectedLink(); // set selectedLink to undfined.
         }
-    }, [isSelected, prevIsSelected]) // only run if our isSlected values has changed.
+    }, [isSelected, prevIsSelected]) // only run if our isSelected values has changed.
 
     const addNewSocilalItem = () => {
         setAttributes({
@@ -243,30 +279,30 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                 />
                 <div className='wp-block-blocks-course-team-member-social-links'>
                     <ul>
-                        {socialLinks.map((item, index) => { // this map function loops over the sociaLinks array from the inex.js file of the nested block. The item is the current value being passed in. It then uses the item component to display the icon mapped from the loop.  
-                            return (
-                                <li
-                                    key={index} // In REACT each child in a list should have a unique key, here we use the index number from the loop as a dynamic key. This si done because REACT needs to know which items have changed in the REACT DOM.
-                                    className={ // a conditional adding of a class name if selected link is equal to the index
-                                        selectedLink === index
-                                            ? 'is-selected'
-                                            : null
-                                    }
-                                >
-                                    <button
-                                        aria-label={__(
-                                            'Edit Social Link',
-                                            'team-members'
-                                        )}
-                                        onClick={() =>
-                                            setSelectedLink(index) // this function is being passed the index of the selected link // this toggles the is-selected class. See the li above.
-                                        }
-                                    >
-                                        <Icon icon={item.icon} />
-                                    </button>
-                                </li>
-                            );
-                        })}
+                        <DndContext
+                            sensors={sensors}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <SortableContext items={socialLinks.map(
+                                (item) => `${item.icon}-${item.link}`
+                            )}
+                                strategy={horizontalListSortingStrategy}
+                            >
+                                {socialLinks.map((item, index) => {
+                                    return (
+                                        <SortableItem
+                                            key={`${item.icon}-${item.link}`} // every item needs a unique key, here we use the icon and link as a unique key concatenated together with a dash -.
+                                            id={`${item.icon}-${item.link}`}
+                                            index={index} // this line and the next 2 lines are the props we pass to the SortableItem component
+                                            selectedLink={selectedLink}
+                                            setSelectedLink={setSelectedLink}
+                                            icon={item.icon} // this is the icon name
+                                        />
+                                    )
+                                })}
+                            </SortableContext>
+                        </DndContext>
+
                         {isSelected &&
                             <li className='wp-block-blocks-course-team-member-social-add-icon-li'>
                                 <Tooltip
@@ -287,14 +323,28 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                         }
                     </ul>
                 </div>
-
-                <div className='wp-block-blocks-course-team-member-social-links-link-form'>
-                    <TextControl label={__('Icon', 'team-members')} />
-                    <TextControl label={__('URL', 'team-members')} />
-                    <Button>
-                        {__('Remove Link', 'team-members')}
-                    </Button>
-                </div>
+                {selectedLink !== undefined && ( // if selectedLink is not undefined then display the form. We use undefined because we can't use false as a value for selectedLink becuase the first icon has an index of 0 so would return as false if selected
+                    <div className='wp-block-blocks-course-team-member-social-links-link-form'>
+                        <TextControl
+                            label={__('Icon', 'team-members')}
+                            value={socialLinks[selectedLink].icon /* selectedLink is the index of the currently selected link from the socialLinks array */}
+                            onChange={(icon) => { // we pass the function the new value of the icon so it can be used as the second arrgument for updateSiocialItem
+                                updateSocialItem('icon', icon); // we pass it the type of icon and the new value of the icon
+                            }}
+                        />
+                        <TextControl
+                            label={__('URL', 'team-members')}
+                            value={socialLinks[selectedLink].link}
+                            onChange={(link) => { // we pass the function the new value of the icon so it can be used as the second arrgument for updateSiocialItem
+                                updateSocialItem('link', link); // we pass it the type of icon and the new value of the icon
+                            }}
+                        />
+                        <br />
+                        <Button isDestructive onClick={removeSocialItem}>
+                            {__('Remove Link', 'team-members')}
+                        </Button>
+                    </div>
+                )}
             </div>
         </>
     );
