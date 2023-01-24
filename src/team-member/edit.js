@@ -33,9 +33,11 @@ import {
 } from "@dnd-kit/core";
 import {
     SortableContext,
+    arrayMove,
     verticalListSortingStrategy,
     horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import SortableItem from './sortable-item';
 
 function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelected, ...props }) {
@@ -149,8 +151,21 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
         setAttributes({ socialLinks: socialLinksCopy }); // we set the socialLinks attribute to the copy of the socialLinks array
     }
 
-    const handleDragEnd = (event) => {
-        console.log(event);
+    const handleDragEnd = (event) => { // in this case the event is when the user has finished dragging the item. Javascript reacts to the event and calls the handleDragEnd function
+        //console.log(event); //if you console log the event object you will see that it contains the active and over properties
+        const { active, over } = event; // first we destructure the active and over properties from the event object
+        //console.log(active, over) // retinr the active and over properties from the event object
+        if (active && over && active !== over) { // check if the active and over index are not the same (i.e. if the user has dragged the item to a new position). We also check if the active and over index are not undefined. This is the same as saying if active and over are true and active is not equal to over
+            const oldIndex = socialLinks.findIndex( // use .findIndex to find the index of the item that was dragged
+                (i) => active.id === `${i.icon}-${i.link}` // pass the index of the item that was dragged as the active index. if the active item id is equal to the template literal then return the index of that item which is now the value of oldIndex
+            );
+            const newIndex = socialLinks.findIndex( // we use the same as above but this time we pass the index of the item that the active item was dragged over as the over index
+                (i) => over.id === `${i.icon}-${i.link}`
+            );
+            setAttributes({
+                socialLinks: arrayMove(socialLinks, oldIndex, newIndex), // use the arrayMove function to move the item from the old index to the new index
+            })
+        }
     }
 
     const removeSocialItem = () => {
@@ -282,6 +297,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
                         <DndContext
                             sensors={sensors}
                             onDragEnd={handleDragEnd}
+                            modifiers={[restrictToHorizontalAxis]} // resticted the movement to the horizontal axis using the restrictToHorizontalAxis from @dnd-kit/modifiers
                         >
                             <SortableContext items={socialLinks.map(
                                 (item) => `${item.icon}-${item.link}`

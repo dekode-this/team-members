@@ -4017,6 +4017,148 @@ const DragOverlay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().me
 
 /***/ }),
 
+/***/ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createSnapModifier": () => (/* binding */ createSnapModifier),
+/* harmony export */   "restrictToFirstScrollableAncestor": () => (/* binding */ restrictToFirstScrollableAncestor),
+/* harmony export */   "restrictToHorizontalAxis": () => (/* binding */ restrictToHorizontalAxis),
+/* harmony export */   "restrictToParentElement": () => (/* binding */ restrictToParentElement),
+/* harmony export */   "restrictToVerticalAxis": () => (/* binding */ restrictToVerticalAxis),
+/* harmony export */   "restrictToWindowEdges": () => (/* binding */ restrictToWindowEdges),
+/* harmony export */   "snapCenterToCursor": () => (/* binding */ snapCenterToCursor)
+/* harmony export */ });
+/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
+
+
+function createSnapModifier(gridSize) {
+  return _ref => {
+    let {
+      transform
+    } = _ref;
+    return { ...transform,
+      x: Math.ceil(transform.x / gridSize) * gridSize,
+      y: Math.ceil(transform.y / gridSize) * gridSize
+    };
+  };
+}
+
+const restrictToHorizontalAxis = _ref => {
+  let {
+    transform
+  } = _ref;
+  return { ...transform,
+    y: 0
+  };
+};
+
+function restrictToBoundingRect(transform, rect, boundingRect) {
+  const value = { ...transform
+  };
+
+  if (rect.top + transform.y <= boundingRect.top) {
+    value.y = boundingRect.top - rect.top;
+  } else if (rect.bottom + transform.y >= boundingRect.top + boundingRect.height) {
+    value.y = boundingRect.top + boundingRect.height - rect.bottom;
+  }
+
+  if (rect.left + transform.x <= boundingRect.left) {
+    value.x = boundingRect.left - rect.left;
+  } else if (rect.right + transform.x >= boundingRect.left + boundingRect.width) {
+    value.x = boundingRect.left + boundingRect.width - rect.right;
+  }
+
+  return value;
+}
+
+const restrictToParentElement = _ref => {
+  let {
+    containerNodeRect,
+    draggingNodeRect,
+    transform
+  } = _ref;
+
+  if (!draggingNodeRect || !containerNodeRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, containerNodeRect);
+};
+
+const restrictToFirstScrollableAncestor = _ref => {
+  let {
+    draggingNodeRect,
+    transform,
+    scrollableAncestorRects
+  } = _ref;
+  const firstScrollableAncestorRect = scrollableAncestorRects[0];
+
+  if (!draggingNodeRect || !firstScrollableAncestorRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, firstScrollableAncestorRect);
+};
+
+const restrictToVerticalAxis = _ref => {
+  let {
+    transform
+  } = _ref;
+  return { ...transform,
+    x: 0
+  };
+};
+
+const restrictToWindowEdges = _ref => {
+  let {
+    transform,
+    draggingNodeRect,
+    windowRect
+  } = _ref;
+
+  if (!draggingNodeRect || !windowRect) {
+    return transform;
+  }
+
+  return restrictToBoundingRect(transform, draggingNodeRect, windowRect);
+};
+
+const snapCenterToCursor = _ref => {
+  let {
+    activatorEvent,
+    draggingNodeRect,
+    transform
+  } = _ref;
+
+  if (draggingNodeRect && activatorEvent) {
+    const activatorCoordinates = (0,_dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_0__.getEventCoordinates)(activatorEvent);
+
+    if (!activatorCoordinates) {
+      return transform;
+    }
+
+    const offsetX = activatorCoordinates.x - draggingNodeRect.left;
+    const offsetY = activatorCoordinates.y - draggingNodeRect.top;
+    return { ...transform,
+      x: transform.x + offsetX - draggingNodeRect.width / 2,
+      y: transform.y + offsetY - draggingNodeRect.height / 2
+    };
+  }
+
+  return transform;
+};
+
+
+//# sourceMappingURL=modifiers.esm.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@dnd-kit/sortable/dist/sortable.esm.js ***!
@@ -5343,7 +5485,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
-/* harmony import */ var _sortable_item__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./sortable-item */ "./src/team-member/sortable-item.js");
+/* harmony import */ var _dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @dnd-kit/modifiers */ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js");
+/* harmony import */ var _sortable_item__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sortable-item */ "./src/team-member/sortable-item.js");
+
 
 
 
@@ -5514,7 +5658,26 @@ function Edit(_ref) {
   };
 
   const handleDragEnd = event => {
-    console.log(event);
+    // in this case the event is when the user has finished dragging the item. Javascript reacts to the event and calls the handleDragEnd function
+    //console.log(event); //if you console log the event object you will see that it contains the active and over properties
+    const {
+      active,
+      over
+    } = event; // first we destructure the active and over properties from the event object
+    //console.log(active, over) // retinr the active and over properties from the event object
+
+    if (active && over && active !== over) {
+      // check if the active and over index are not the same (i.e. if the user has dragged the item to a new position). We also check if the active and over index are not undefined. This is the same as saying if active and over are true and active is not equal to over
+      const oldIndex = socialLinks.findIndex( // use .findIndex to find the index of the item that was dragged
+      i => active.id === `${i.icon}-${i.link}` // pass the index of the item that was dragged as the active index. if the active item id is equal to the template literal then return the index of that item which is now the value of oldIndex
+      );
+      const newIndex = socialLinks.findIndex( // we use the same as above but this time we pass the index of the item that the active item was dragged over as the over index
+      i => over.id === `${i.icon}-${i.link}`);
+      setAttributes({
+        socialLinks: (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_8__.arrayMove)(socialLinks, oldIndex, newIndex) // use the arrayMove function to move the item from the old index to the new index
+
+      });
+    }
   };
 
   const removeSocialItem = () => {
@@ -5523,7 +5686,7 @@ function Edit(_ref) {
       ...socialLinks.slice(selectedLink + 1) // then concatinate the second slice of the socialLinks array from the selectedLink + 1 to the end of the array (this will remove the selectedLink becuase it is the one in the middle of the array)
       ]
     });
-    setSelectedLink();
+    setSelectedLink(); // clear the selected link by setting setSelectedLink as undefined
   }; // Edge case if the user refreshes the browser while the image is still in blobURL status to prevent the spinner from endlessly spinning.
 
 
@@ -5637,12 +5800,14 @@ function Edit(_ref) {
     className: "wp-block-blocks-course-team-member-social-links"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_7__.DndContext, {
     sensors: sensors,
-    onDragEnd: handleDragEnd
+    onDragEnd: handleDragEnd,
+    modifiers: [_dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_9__.restrictToHorizontalAxis] // resticted the movement to the horizontal axis using the restrictToHorizontalAxis from @dnd-kit/modifiers
+
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_8__.SortableContext, {
     items: socialLinks.map(item => `${item.icon}-${item.link}`),
     strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_8__.horizontalListSortingStrategy
   }, socialLinks.map((item, index) => {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_sortable_item__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_sortable_item__WEBPACK_IMPORTED_MODULE_10__["default"], {
       key: `${item.icon}-${item.link}` // every item needs a unique key, here we use the icon and link as a unique key concatenated together with a dash -.
       ,
       id: `${item.icon}-${item.link}`,
@@ -5755,13 +5920,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     socialLinks: {
       type: 'array',
-      default: [{
-        link: 'https://facebook.com',
-        icon: 'facebook'
-      }, {
-        link: 'https://instagram.com',
-        icon: 'instagram'
-      }],
+      default: [],
       source: 'query',
       selector: '.wp-block-blocks-course-team-member-social-links ul li',
       query: {
