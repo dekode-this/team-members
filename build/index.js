@@ -5415,6 +5415,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/edit.js");
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/save.js");
+ // createBlock is a function that allows us to create a block from within another block we use it for the transform function
 
  // the inclusion of the the nested block, importing the the index.js file from the folder.
 
@@ -5424,7 +5425,39 @@ __webpack_require__.r(__webpack_exports__);
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('blocks-course/team-members', {
   // this is the name taken from block.json
   edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
-  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
+  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"],
+  transforms: {
+    from: [{
+      type: 'block',
+      blocks: ['core/gallery'],
+      transform: _ref => {
+        let {
+          images,
+          columns
+        } = _ref;
+        // destructuring the images and columns properties from the attributes object
+        const InnerBlocks = images.map(_ref2 => {
+          let {
+            url,
+            id,
+            alt
+          } = _ref2;
+          // destructuring the url and alt properties from the images array
+          return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-member', {
+            // this is the name of the block we are creating
+            url,
+            id,
+            alt
+          });
+        });
+        return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-members', {
+          // this is the name of the block we are creating
+          columns: columns || 2 // if columns is undefined then use 2
+
+        }, InnerBlocks);
+      }
+    }]
+  }
 });
 
 /***/ }),
@@ -5715,8 +5748,8 @@ function Edit(_ref) {
   }, [url]); // this useEffect will run every time our url attribute changes, e.g. between blob url to actual url.
 
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (url && !prevURL) {
-      // if url is true (as in theuser has selected a new image) and we do not have a previous URL then chabge the focus to the title text field
+    if (url && !prevURL && isSelected) {
+      // if url is true (as in theuser has selected a new image) and and is not the same as the previous URL then chabge the focus to the title text field
       titleRef.current.focus(); //useRef must have .current as a method
     }
   }, [url, prevURL]);

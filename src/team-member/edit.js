@@ -198,7 +198,7 @@ function Edit({ attributes, setAttributes, noticeOperations, noticeUI, isSelecte
     }, [url]) // this useEffect will run every time our url attribute changes, e.g. between blob url to actual url.
 
     useEffect(() => {
-        if (url && !prevURL) { // if url is true (as in theuser has selected a new image) and we do not have a previous URL then chabge the focus to the title text field
+        if (url && !prevURL && isSelected) { // if url is true (as in theuser has selected a new image) and and is not the same as the previous URL then chabge the focus to the title text field
             titleRef.current.focus(); //useRef must have .current as a method
         }
     }, [url, prevURL])
