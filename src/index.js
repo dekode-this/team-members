@@ -15,16 +15,40 @@ registerBlockType('blocks-course/team-members', { // this is the name taken from
 				transform: ({ images, columns }) => { // destructuring the images and columns properties from the attributes object
 					const InnerBlocks = images.map(({ url, id, alt }) => { // destructuring the url and alt properties from the images array
 						return createBlock('blocks-course/team-member', { // this is the name of the block we are creating
-							url,
-							id,
 							alt,
+							id,
+							url,
 						})
 					});
 					return createBlock('blocks-course/team-members', { // this is the name of the block we are creating
 						columns: columns || 2, // if columns is undefined then use 2
 					}, InnerBlocks)
 				}
-			}
+			},
+			{
+				type: 'block',
+				blocks: ['core/image'],
+				isMultiBlock: true,
+				transform: (attributes) => {
+					const innerBlocks = attributes.map(
+						({ url, id, alt }) => {
+							return createBlock('blocks-course/team-member', {
+								alt,
+								id,
+								url,
+							});
+						}
+					);
+					return createBlock(
+						'blocks-course/team-members',
+						{
+							columns:
+								attributes.length > 3 ? 3 : attributes.length,
+						},
+						innerBlocks
+					);
+				},
+			},
 		]
 	}
 });

@@ -5445,9 +5445,9 @@ __webpack_require__.r(__webpack_exports__);
           // destructuring the url and alt properties from the images array
           return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-member', {
             // this is the name of the block we are creating
-            url,
+            alt,
             id,
-            alt
+            url
           });
         });
         return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-members', {
@@ -5455,6 +5455,27 @@ __webpack_require__.r(__webpack_exports__);
           columns: columns || 2 // if columns is undefined then use 2
 
         }, InnerBlocks);
+      }
+    }, {
+      type: 'block',
+      blocks: ['core/image'],
+      isMultiBlock: true,
+      transform: attributes => {
+        const innerBlocks = attributes.map(_ref3 => {
+          let {
+            url,
+            id,
+            alt
+          } = _ref3;
+          return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-member', {
+            alt,
+            id,
+            url
+          });
+        });
+        return (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)('blocks-course/team-members', {
+          columns: attributes.length > 3 ? 3 : attributes.length
+        }, innerBlocks);
       }
     }]
   }
